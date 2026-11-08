@@ -50,14 +50,28 @@ If the file is missing or corrupt, the hero automatically shows a labelled place
 
 ---
 
-## 4. Add the HCIA-DCS certificate image
+## 4. Certificates (installed — 13 credentials)
 
-1. Scan or photograph the certificate flat, well lit, no glare.
-2. Crop to the certificate edges → 4:3 landscape, ~1600 × 1200 px, JPG under 400 KB.
-3. Save as **`huawei-hcia-dcs.jpg`** in `public/assets/certifications/`.
-4. Rebuild. The featured certification card and its lightbox will show the image automatically.
+All 13 certificates are already on the site, with preview images and original documents:
 
-For additional certificates: add a new data entry in `certifications` with `featured: true` and an `image` filename — the same folder convention applies.
+- previews → `public/assets/certifications/<slug>.jpg`
+- originals → `public/assets/certifications/files/<slug>.pdf` (or `.jpg`)
+- data → `src/data/portfolio.js` → `certifications`
+
+Full inventory with dates, credential numbers and file names: **`certificate-library.md`**.
+
+**Adding a new certificate**
+
+1. Preview: 1400 px wide, 4:3, JPG under 200 KB → `public/assets/certifications/<slug>.jpg`
+2. Original document → `public/assets/certifications/files/<slug>.pdf`
+3. Add an entry to `certifications` with `name`, `short`, `issuer`, `vendor`, `dateLabel`, `image`, `file`, optional `credentialId` / `validThrough` / `featured` / `verifyUrl`.
+4. Rebuild and push — the card grid, counts and viewer update automatically.
+
+Only publish documents that belong to the portfolio owner. Never invent a credential number: leave `credentialId` out if it is not printed on the certificate.
+
+### Excluded file
+
+`Huawei/1763874889933-…png` is an xFusion FCIA certificate issued to **Elias Ahammmed**. It was deliberately **not** published.
 
 ---
 
