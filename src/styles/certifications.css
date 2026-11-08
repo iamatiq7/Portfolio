@@ -1,0 +1,207 @@
+﻿/* ============ Certifications ============ */
+.cert-summary {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin-bottom: 54px;
+}
+.cert-summary__item {
+  background: var(--bg-1);
+  padding: 22px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  color: var(--text-3);
+  font-size: 0.82rem;
+}
+.cert-summary__value {
+  font-family: var(--font-mono);
+  font-size: 1.7rem;
+  font-weight: 500;
+  color: var(--accent);
+  line-height: 1.1;
+}
+
+.cert-group-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.82rem;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 20px;
+}
+.cert-group-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+.cert-group-title:not(:first-of-type) { margin-top: 52px; }
+.cert-group-title__count {
+  font-size: 0.72rem;
+  color: var(--accent);
+  border: 1px solid var(--accent-line);
+  background: var(--accent-soft);
+  border-radius: 999px;
+  padding: 2px 8px;
+}
+
+/* Vendor certificate cards */
+.cert-vendor-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+.cert-vendor { overflow: hidden; display: flex; flex-direction: column; }
+.cert-vendor__visual {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  background: #f4f6f9;
+  border-bottom: 1px solid var(--line);
+  cursor: zoom-in;
+}
+.cert-vendor__visual .smart-image { background: #f4f6f9; }
+.cert-vendor__visual .smart-image img { object-fit: contain; background: #fff; }
+.cert-vendor__zoom {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 11px;
+  border-radius: 8px;
+  background: rgba(10, 17, 32, 0.85);
+  border: 1px solid var(--line-strong);
+  color: var(--text-1);
+  font-size: 0.74rem;
+  font-weight: 500;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.25s var(--ease), transform 0.25s var(--ease);
+}
+.cert-vendor__visual:hover .cert-vendor__zoom,
+.cert-vendor__visual:focus-visible .cert-vendor__zoom { opacity: 1; transform: none; }
+.cert-vendor__body { padding: 20px 22px 22px; display: flex; flex-direction: column; flex: 1; }
+.cert-vendor__head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 12px; }
+.cert-vendor__mark {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: var(--text-2);
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  padding: 3px 8px;
+}
+.cert-vendor__body h3 { font-size: 1.05rem; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 4px; }
+.cert-vendor__name { color: var(--text-2); font-size: 0.82rem; line-height: 1.45; margin-bottom: 14px; }
+
+.cert-meta { display: grid; gap: 7px; margin-bottom: 14px; }
+.cert-meta > div { display: grid; grid-template-columns: 104px 1fr; gap: 10px; align-items: baseline; }
+.cert-meta dt {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.cert-meta dd { font-size: 0.82rem; color: var(--text-1); line-height: 1.4; }
+.cert-meta__id { font-family: var(--font-mono); font-size: 0.74rem !important; word-break: break-all; color: var(--accent) !important; }
+.cert-vendor__note { margin-top: auto; padding-top: 12px; border-top: 1px solid var(--line); color: var(--text-3); font-size: 0.78rem; line-height: 1.5; }
+
+/* HPE qualification cards */
+.cert-qual-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.cert-qual {
+  display: flex;
+  gap: 18px;
+  padding: 14px;
+  align-items: center;
+  text-align: left;
+}
+.cert-qual__thumb {
+  flex: 0 0 148px;
+  padding: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: #fff;
+  cursor: zoom-in;
+  transition: border-color 0.2s var(--ease);
+}
+.cert-qual__thumb:hover { border-color: var(--accent-line); }
+.cert-qual__thumb .smart-image { background: #f4f6f9; }
+.cert-qual__thumb .smart-image img { object-fit: contain; background: #fff; }
+.cert-qual__body { min-width: 0; flex: 1; }
+.cert-qual__body h4 { font-size: 0.94rem; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 4px; }
+.cert-qual__body p { color: var(--text-3); font-size: 0.78rem; line-height: 1.45; margin-bottom: 10px; }
+.cert-qual__foot { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.cert-qual__date {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--accent);
+  border: 1px solid var(--accent-line);
+  background: var(--accent-soft);
+  border-radius: 999px;
+  padding: 2px 9px;
+  white-space: nowrap;
+}
+.cert-qual__id { font-family: var(--font-mono); font-size: 0.68rem; color: var(--text-3); }
+
+/* In-progress strip */
+.cert-ongoing { margin-top: 34px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.cert-ongoing__label {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+/* Certificate viewer modal */
+.modal__panel--cert { width: min(900px, 100%); }
+.modal__panel--cert .modal__scroll { padding: 0; }
+.modal__panel--cert .smart-image { background: #f4f6f9; height: min(46vh, 460px); aspect-ratio: auto; }
+.modal__panel--cert .smart-image img { object-fit: contain; background: #fff; }
+.cert-viewer { padding: 26px 30px 30px; }
+.cert-viewer__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+.cert-viewer__title { font-size: 1.15rem; font-weight: 600; letter-spacing: -0.01em; line-height: 1.35; margin-bottom: 16px; padding-right: 30px; }
+.cert-viewer__note { color: var(--text-2); font-size: 0.86rem; margin-bottom: 18px; }
+.cert-viewer__actions { display: flex; flex-wrap: wrap; gap: 10px; }
+
+@media (max-width: 1080px) {
+  .cert-vendor-grid { grid-template-columns: 1fr 1fr; }
+  .cert-vendor-grid .cert-vendor:last-child { grid-column: 1 / -1; }
+}
+@media (max-width: 900px) {
+  .cert-summary { grid-template-columns: 1fr 1fr; }
+  .cert-qual-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .cert-vendor-grid { grid-template-columns: 1fr; }
+  .cert-vendor-grid .cert-vendor:last-child { grid-column: auto; }
+  .cert-qual { flex-direction: column; align-items: stretch; }
+  .cert-qual__thumb { flex: none; }
+  .cert-summary { grid-template-columns: 1fr 1fr; }
+  .cert-viewer { padding: 20px; }
+}

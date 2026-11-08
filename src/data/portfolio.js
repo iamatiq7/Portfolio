@@ -54,7 +54,7 @@ export const PORTFOLIO_DATA = {
     stats: [
       { value: 'Gen10–Gen12', label: 'HPE ProLiant platforms' },
       { value: 'Enterprise', label: 'backup & storage environments' },
-      { value: 'HCIA-DCS', label: 'Huawei certified' },
+      { value: 'HCSA', label: 'Huawei certified (DCS)' },
       { value: '7', label: 'projects in my portfolio' }
     ]
   },
@@ -368,31 +368,173 @@ export const PORTFOLIO_DATA = {
   ],
 
   // ==========================================================================
-  // CERTIFICATIONS — earned qualifications and in-progress goals
-  //   featured: true → shown as the large card with certificate image support.
-  //   image:     filename under public/assets/certifications/
+  // CERTIFICATIONS — every entry backed by the supplied certificate file
+  //   image → public/assets/certifications/<image>
+  //   file  → public/assets/certifications/<file>   (original PDF/JPG)
+  // Dates and credential numbers are transcribed from the certificates
+  // themselves: HPE "Certificate of completion", Huawei HCSA, xFusion FCIA/FCIP.
   // ==========================================================================
   certifications: [
     {
-      name: 'HCIA-DCS — Data Center System',
+      id: 'huawei-hcsa-om-dcs',
+      name: 'Huawei Certified Specialist Associate — O&M (DCS)',
+      short: 'HCSA O&M-DCS',
       issuer: 'Huawei',
-      status: 'Earned',
+      vendor: 'Huawei',
+      dateLabel: null,
+      credentialId: '0329010187810446411409',
+      validThrough: '08 Aug 2028',
+      verifyUrl: 'https://e.huawei.com/cn/talent/#/cert/certificate-verification',
+      image: 'huawei-hcsa-om-dcs.jpg',
+      file: 'files/huawei-hcsa-om-dcs.pdf',
       featured: true,
-      image: 'huawei-hcia-dcs.jpg',
-      description: 'Huawei Certified ICT Associate — Data Center System. Covers data center server, storage, and network fundamentals for enterprise environments.'
+      note: 'Data center infrastructure — O&M track. Verify authenticity with the certificate number.'
     },
-    { name: 'HPE Standard ProLiant and Blade Server', issuer: 'HPE', status: 'Earned', note: 'Service & Solution Qualification' },
-    { name: 'HPE StoreEasy ProLiant-Based NAS', issuer: 'HPE', status: 'Earned', note: 'Service & Solution Qualification' },
-    { name: 'HPE Modular Storage Arrays (MSA)', issuer: 'HPE', status: 'Earned', note: 'Service & Solution Qualification' },
-    { name: 'Storage Foundation Test', issuer: 'HPE', status: 'Earned', note: 'Service & Solution Qualification' },
-    { name: 'HPE Alletra 4000', issuer: 'HPE', status: 'Earned', note: 'Service & Solution Qualification' },
-    { name: 'HPE StoreEver ESL Gen3 Tape Libraries', issuer: 'HPE', status: 'Earned', note: 'Service & Solution Qualification' },
-    { name: 'HPE StoreEver MSL Tape Libraries and 1/8 Autoloader', issuer: 'HPE', status: 'Earned', note: 'Service & Solution Qualification' },
-    { name: 'HPE StoreFabric M-Series Ethernet iSCSI Switches', issuer: 'HPE', status: 'Earned', note: 'Service & Solution Qualification' },
-    { name: 'HPE Aruba OS-CX', issuer: 'HPE', status: 'Earned', note: 'Service & Solution Qualification' },
-    { name: 'FCIA-Fusion Server xFusion', issuer: 'HPE', status: 'Earned', note: 'Service & Solution Qualification' },
-    { name: 'RHCSA — Red Hat Certified System Administrator', issuer: 'Red Hat', status: 'In Progress', note: 'Ongoing — currently preparing.' },
-    { name: 'CCNA — Cisco Certified Network Associate', issuer: 'Cisco', status: 'In Progress', note: 'Ongoing — currently preparing.' }
+    {
+      id: 'xfusion-fcia-server',
+      name: 'xFusion FCIA — Server',
+      short: 'FCIA Server',
+      issuer: 'xFusion',
+      vendor: 'xFusion',
+      dateLabel: 'Granted 20 Nov 2025',
+      credentialId: 'XFU01FCIA011783',
+      validThrough: '20 Nov 2027',
+      image: 'xfusion-fcia-server.jpg',
+      file: 'files/xfusion-fcia-server.jpg',
+      featured: true,
+      note: 'FusionServer Certified IT Associate — server platform certification, 2-year validity.'
+    },
+    {
+      id: 'xfusion-fcip-fusionone-hci',
+      name: 'xFusion FCIP — FusionOne HCI',
+      short: 'FCIP FusionOne HCI',
+      issuer: 'xFusion',
+      vendor: 'xFusion',
+      dateLabel: 'Granted 08 Dec 2025',
+      credentialId: 'XFU03FCIP010153',
+      validThrough: '08 Dec 2027',
+      image: 'xfusion-fcip-fusionone-hci.jpg',
+      file: 'files/xfusion-fcip-fusionone-hci.jpg',
+      featured: true,
+      note: 'FusionOne HCI Certified IT Professional — hyperconverged infrastructure certification.'
+    },
+    {
+      id: 'hpe-standard-proliant-blade-server',
+      name: 'HPE Standard ProLiant and Blade Server Service and Solution Qualification',
+      short: 'ProLiant & Blade Server',
+      issuer: 'HPE',
+      vendor: 'HPE',
+      dateLabel: '04 Feb 2025',
+      image: 'hpe-standard-proliant-blade-server.jpg',
+      file: 'files/hpe-standard-proliant-blade-server.pdf',
+      note: 'Service & Solution Qualification — ProLiant rack, tower and Synergy blade platforms.'
+    },
+    {
+      id: 'hpe-storeeasy-nas',
+      name: 'HPE StoreEasy ProLiant-Based NAS Service and Solution Qualification',
+      short: 'StoreEasy NAS',
+      issuer: 'HPE',
+      vendor: 'HPE',
+      dateLabel: '17 Jun 2025',
+      image: 'hpe-storeeasy-nas.jpg',
+      file: 'files/hpe-storeeasy-nas.pdf',
+      note: 'Service & Solution Qualification — ProLiant-based NAS platforms.'
+    },
+    {
+      id: 'hpe-aruba-os-cx',
+      name: 'HPE Aruba OS-CX Service and Solution Qualification',
+      short: 'Aruba OS-CX',
+      issuer: 'HPE',
+      vendor: 'HPE',
+      dateLabel: '23 Feb 2025',
+      image: 'hpe-aruba-os-cx.jpg',
+      file: 'files/hpe-aruba-os-cx.pdf',
+      note: 'Service & Solution Qualification — Aruba CX switching.'
+    },
+    {
+      id: 'hpe-msa',
+      name: 'HPE Modular Storage Arrays (MSA) Service and Solution Qualification',
+      short: 'MSA Storage',
+      issuer: 'HPE',
+      vendor: 'HPE',
+      dateLabel: '17 Jun 2025',
+      image: 'hpe-msa.jpg',
+      file: 'files/hpe-msa.pdf',
+      note: 'Service & Solution Qualification — MSA 1060/2060 family storage arrays.'
+    },
+    {
+      id: 'hpe-storage-foundation-test',
+      name: 'Storage Foundation Test',
+      short: 'Storage Foundation',
+      issuer: 'HPE',
+      vendor: 'HPE',
+      dateLabel: '17 Jun 2025',
+      image: 'hpe-storage-foundation-test.jpg',
+      file: 'files/hpe-storage-foundation-test.pdf',
+      note: 'Foundational storage assessment covering SAN, RAID and array concepts.'
+    },
+    {
+      id: 'hpe-alletra-4000',
+      name: 'HPE Alletra 4000 Service and Solution Qualification',
+      short: 'Alletra 4000',
+      issuer: 'HPE',
+      vendor: 'HPE',
+      dateLabel: '13 Jul 2025',
+      image: 'hpe-alletra-4000.jpg',
+      file: 'files/hpe-alletra-4000.pdf',
+      note: 'Service & Solution Qualification — Alletra 4000 block storage.'
+    },
+    {
+      id: 'hpe-storeever-esl-gen3',
+      name: 'HPE StoreEver ESL Gen3 Tape Libraries Service and Solution Qualification',
+      short: 'StoreEver ESL Gen3',
+      issuer: 'HPE',
+      vendor: 'HPE',
+      dateLabel: '21 Sep 2025',
+      image: 'hpe-storeever-esl-gen3.jpg',
+      file: 'files/hpe-storeever-esl-gen3.pdf',
+      note: 'Service & Solution Qualification — enterprise tape libraries.'
+    },
+    {
+      id: 'hpe-storeever-msl-autoloader',
+      name: 'HPE StoreEver MSL Tape Libraries and 1/8 Autoloader Service and Solution Qualification',
+      short: 'StoreEver MSL',
+      issuer: 'HPE',
+      vendor: 'HPE',
+      dateLabel: '27 Aug 2025',
+      image: 'hpe-storeever-msl-autoloader.jpg',
+      file: 'files/hpe-storeever-msl-autoloader.pdf',
+      note: 'Service & Solution Qualification — MSL tape libraries and autoloaders.'
+    },
+    {
+      id: 'hpe-storefabric-m-series',
+      name: 'HPE StoreFabric M-Series Ethernet iSCSI Switches Service and Solution Qualification',
+      short: 'StoreFabric M-Series',
+      issuer: 'HPE',
+      vendor: 'HPE',
+      dateLabel: '25 Aug 2025',
+      image: 'hpe-storefabric-m-series.jpg',
+      file: 'files/hpe-storefabric-m-series.pdf',
+      note: 'Service & Solution Qualification — iSCSI switching fabric.'
+    },
+    {
+      id: 'hpe-3par-service-processor',
+      name: 'HPE 3PAR Service Processor 5.0.7',
+      short: '3PAR Service Processor',
+      issuer: 'HPE',
+      vendor: 'HPE',
+      dateLabel: '17 Jun 2025',
+      credentialId: '0001131983',
+      image: 'hpe-3par-service-processor.jpg',
+      file: 'files/hpe-3par-service-processor.pdf',
+      note: 'Certificate of completion — 3PAR Service Processor administration.'
+    }
+  ],
+
+  // Certifications currently being pursued (no certificate issued yet)
+  inProgress: [
+    { name: 'RHCSA — Red Hat Certified System Administrator', issuer: 'Red Hat' },
+    { name: 'CCNA — Cisco Certified Network Associate', issuer: 'Cisco' }
   ],
 
   // ==========================================================================
