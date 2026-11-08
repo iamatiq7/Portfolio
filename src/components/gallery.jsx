@@ -14,11 +14,14 @@ import { Icons, useDialog } from './ui.jsx';
    descriptions, dates) and gallery.captions ({ 'thesis/01.jpg': 'Caption' }).
    --------------------------------------------------------------------------- */
 
-const IMAGE_MODULES = import.meta.glob('../assets/gallery/*/*.{jpg,jpeg,png,webp,avif}', {
-  eager: true,
-  query: '?url',
-  import: 'default',
-});
+const IMAGE_MODULES = import.meta.glob(
+  '../assets/gallery/*/*.{jpg,jpeg,png,webp,avif,JPG,JPEG,PNG,WEBP,AVIF}',
+  {
+    eager: true,
+    query: '?url',
+    import: 'default',
+  }
+);
 
 function titleFromName(name) {
   return name
