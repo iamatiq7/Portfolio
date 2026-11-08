@@ -610,19 +610,6 @@
   color: var(--text-3);
 }
 
-/* ============ Gallery ============ */
-.gallery-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; }
-.gallery-album { overflow: hidden; }
-.gallery-album__photos { display: grid; grid-template-columns: 1fr 1fr; }
-.gallery-album__cover { grid-column: 1 / -1; }
-.gallery-album__meta { padding: 22px 24px; }
-.gallery-album__meta h3 { font-size: 1.02rem; font-weight: 600; }
-.gallery-album__date { color: var(--text-3); font-size: 0.8rem; font-family: var(--font-mono); margin: 4px 0 10px; }
-.gallery-album__meta p:not(.gallery-album__date) { color: var(--text-2); font-size: 0.88rem; }
-.gallery-plan { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 14px; }
-.gallery-plan code { color: var(--accent); font-family: var(--font-mono); font-size: 0.8rem; }
-.empty-note code { color: var(--accent); font-family: var(--font-mono); font-size: 0.82em; }
-
 /* ============ Contact ============ */
 .contact-grid {
   display: grid;

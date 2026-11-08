@@ -76,12 +76,18 @@ Design tokens: `src/styles/global.css`. Certificate section styles: `src/styles/
 
 13 verified credentials are published with previews and original documents:
 
+13 verified credentials are published with previews and original documents:
+
 - **Huawei** HCSA O&M-DCS — cert no. `0329010187810446411409`, valid through 08 Aug 2028
 - **xFusion** FCIA Server — `XFU01FCIA011783` (granted 20 Nov 2025)
 - **xFusion** FCIP FusionOne HCI — `XFU03FCIP010153` (granted 08 Dec 2025)
 - **HPE** — 10 Service & Solution Qualifications (Feb–Sep 2025)
 
 Full inventory: `certificate-library.md`. Clicking any certificate opens a viewer with metadata, the original document and (where available) a verification link.
+
+## Gallery
+
+The **Beyond Engineering** section is folder-driven: drop photos into `src/assets/gallery/<album>/` (`thesis`, `projects`, `events`, `campus`) and push. New folders become new albums automatically; captions come from filenames or `gallery.captions`. Full instructions: `gallery-guide.md`.
 
 ## Verified build
 

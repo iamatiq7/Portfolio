@@ -103,31 +103,23 @@ The modal renders captions beneath each image; missing files fall back to a labe
 
 ---
 
-## 6. Add a Beyond Engineering album
+## 6. Add photos to the gallery
 
-1. Create `public/assets/gallery/<album-folder>/` (e.g. `thesis`).
-2. Copy photos: `01.jpg`, `02.jpg`, … (4:3, ~1600 × 1200 px).
-3. Add an album entry in `src/data/portfolio.js` under `gallery.albums`:
+The gallery is **folder-driven** — no code edits, no data entries required:
 
-```js
-albums: [
-  {
-    id: 'thesis',
-    folder: 'thesis',
-    title: 'Thesis Project Team',
-    date: '2024',
-    description: 'Final-year research on deep-learning disease detection — team and presentation moments.',
-    photos: [
-      { file: '01.jpg', caption: 'Team after the final defence' },
-      { file: '02.jpg', caption: 'Presentation day' }
-    ]
-  }
-]
+```
+src/assets/gallery/
+├── thesis/      ← thesis group photos
+├── projects/    ← project team photos
+├── events/      ← workshops and events
+└── campus/      ← university life
 ```
 
-4. Rebuild. The designed empty state is replaced by the album grid automatically.
+Drop images into a folder (1600 px long edge, ≤ 400 KB, .jpg/.png/.webp), push, and the
+workflow rebuilds. A new folder becomes a new album automatically. Optional caption and
+album-title overrides live in `gallery.captions` / `gallery.albums` in `src/data/portfolio.js`.
 
----
+Full instructions, naming rules and troubleshooting: **`gallery-guide.md`**.
 
 ## 7. Image hygiene checklist
 
