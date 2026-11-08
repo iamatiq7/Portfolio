@@ -151,3 +151,25 @@ Photos are lazily loaded and hashed at build time, so filenames can contain spac
 - ক্যাপশন নিজের মতো চাইলে `src/data/portfolio.js` → `gallery.captions` এ লিখুন।
 - GitHub-এ ব্রাউজার থেকে ফোল্ডারে ছবি আপলোড করলেই সাইট নিজে থেকে rebuild হয়ে যাবে (১–২ মিনিট)।
 - প্রতিটি ছবি ১৬০০px চওড়া, ৪০০KB-এর নিচে রাখুন।
+
+---
+
+## 9. Uploaded a photo but it did not appear? (real incident, 2026-11-08)
+
+A `DSC_0033.JPG` (7.37 MB, 6000×4000, uppercase extension) was uploaded to
+`src/assets/gallery/thesis/` and did not show up. Two causes:
+
+1. **Uppercase `.JPG`** — the build-time glob originally matched lowercase extensions only, so the
+   file was ignored. **Fixed:** `.JPG/.JPEG/.PNG/.WEBP/.AVIF` are now matched too.
+2. **7.37 MB / 6000 px** — far too heavy for a gallery tile even once detected.
+
+What was done: the photo was resized to 1600 px wide / 169 KB, renamed `01-thesis-group.jpg`,
+the camera original was removed from the repository, and a pre-flight check was added:
+
+```bash
+npm run gallery:check
+# Gallery: 1 photo(s) across 1 album(s) — thesis
+# Result: 0 error(s), 0 warning(s)
+```
+
+It fails on unsupported formats, errors above 8 MB, and warns above 600 KB or on uppercase extensions.

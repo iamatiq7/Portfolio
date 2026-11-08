@@ -57,7 +57,25 @@ for (const item of files) {
 }
 
 const albums = [...new Set(files.map((f) => f.album))];
+
+// Stray images outside the album folders are invisible to the gallery.
+const stray = [];
+for (const name of fs.readdirSync(process.cwd())) {
+  if (/\.(jpe?g|png|webp|avif|heic|heif)$/i.test(name) && fs.statSync(path.join(process.cwd(), name)).isFile()) {
+    stray.push(`repo root: ${name}`);
+  }
+}
+const legacy = path.resolve('public/assets/gallery');
+if (fs.existsSync(legacy)) {
+  const legacyFiles = fs.readdirSync(legacy, { recursive: true }).filter((f) => /\.(jpe?g|png|webp|avif|heic|heif)$/i.test(String(f)));
+  if (legacyFiles.length) stray.push(`public/assets/gallery contains ${legacyFiles.length} image(s) (legacy location)`);
+}
+
 console.log(`\nGallery: ${files.length} photo(s) across ${albums.length} album(s) — ${albums.join(', ') || 'none'}`);
 console.log(`Result: ${errors} error(s), ${warnings} warning(s)`);
+if (stray.length) {
+  console.log('\nℹ Images outside the gallery folders (they will not render until moved, but the build auto-moves them):');
+  for (const s of stray) console.log(`   • ${s}`);
+}
 
 if (errors) process.exit(1);

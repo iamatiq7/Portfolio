@@ -10,7 +10,9 @@
     "build:gh": "vite build --mode gh-pages",
     "preview": "vite preview",
     "preview:gh": "vite preview --mode gh-pages",
-    "gallery:check": "node scripts/check-gallery.mjs"
+    "gallery:check": "node scripts/check-gallery.mjs",
+    "prebuild": "node scripts/gallery-intake.mjs",
+    "prebuild:gh": "node scripts/gallery-intake.mjs"
   },
   "dependencies": {
     "react": "^19.3.1",

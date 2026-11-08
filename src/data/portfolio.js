@@ -588,6 +588,11 @@ export const PORTFOLIO_DATA = {
         id: 'campus',
         title: 'University Life',
         description: 'Moments from Ahsanullah University of Science and Technology.'
+      },
+      {
+        id: 'teams',
+        title: 'Teams & Groups',
+        description: 'Team photographs from academic, sporting and professional activities.'
       }
     ],
     captions: {}
