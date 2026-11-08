@@ -6,62 +6,83 @@ Enterprise infrastructure portfolio for **Kazi Atiqur Rahman** — Enterprise In
 
 ---
 
-## Repository layout
+## How this repository deploys
 
-| Path | Contents |
-|---|---|
-| `/index.html`, `/assets/` | **The deployed site** — pre-built static output (served by GitHub Pages from this branch root) |
-| `/project-source/` | Full editable React + Vite source project |
-| `/project-source/src/data/portfolio.js` | ★ All site content (text, projects, skills, certifications) |
-| `/project-source/asset_guide.md` | Where to place photos/certificates, exact filenames and sizes |
-| `/project-source/content_update_guide.md` | How to edit any copy or design token |
-| `/project-source/deployment-github-pages.md` | Deployment + rollback runbook |
+Pushing to `main` triggers `.github/workflows/deploy.yml`, which:
 
-> GitHub Pages serves this branch root directly, so treat `/index.html` and `/assets/` as **build output** — do not hand-edit them.
+1. installs dependencies (`npm ci`),
+2. builds with the GitHub Pages base path (`npm run build:gh` → `/Portfolio/`),
+3. verifies `dist/index.html` references `/Portfolio/assets/…`,
+4. publishes `dist/` to GitHub Pages via `actions/deploy-pages`.
+
+No manual build or commit of build output is required. A push is the only action.
+
+---
+
+## Project structure
+
+```
+├── index.html                 # SEO meta, Open Graph, JSON-LD Person schema
+├── vite.config.js             # base path: '/Portfolio/' for gh-pages mode
+├── package.json               # dev / build / build:gh / preview scripts
+├── public/assets/             # fonts, profile photo, resume PDF, og image, favicons
+├── src/
+│   ├── main.jsx               # entry
+│   ├── app.jsx                # section composition
+│   ├── data/portfolio.js      # ★ ALL site content lives here
+│   ├── components/            # navbar, hero, about, expertise, experience,
+│   │                          # projects (+modal), education, certifications,
+│   │                          # gallery (+lightbox), contact, footer, ui
+│   └── styles/                # tokens + component styles (hand-authored CSS)
+├── asset_guide.md             # photo/certificate checklist: folders, names, sizes
+├── content_update_guide.md    # how to edit any copy or design token
+├── deployment-github-pages.md # deploy + rollback runbook
+├── test-report.md             # QA evidence (37/37 browser checks)
+└── analysis-report.md         # audit of the previous site
+```
+
+---
+
+## Local development
+
+```bash
+npm install
+npm run dev        # http://localhost:5173/
+npm run build:gh   # production build with /Portfolio/ base path
+npm run preview    # serve the last build locally
+```
 
 ---
 
 ## Editing content
 
-```bash
-cd project-source
-npm install
-npm run dev            # local preview → http://localhost:5173/
+Nearly everything is in **`src/data/portfolio.js`**:
 
-# edit src/data/portfolio.js (or styles/), then rebuild:
-npm run build:gh       # produces dist/ with /Portfolio/ base path
-```
+- `hero`, `about`, `contact` — positioning and links
+- `expertise` — 6 skill domains and their badges
+- `experience` — timeline entries and responsibility bullets
+- `projects` — case studies (status chip, tech, overview, role, outcomes)
+- `softwareProjects`, `thesis` — academic work
+- `education`, `certifications` — credentials
+- `gallery.albums` — Beyond Engineering albums (empty until photos are added)
 
-Publish the rebuild:
-
-```bash
-# from the repository root
-rm -rf assets index.html
-cp -r project-source/dist/* .
-git add -A && git commit -m "content: update" && git push
-```
-
-GitHub Pages republishes within ~1 minute.
-
----
+Design tokens (palette, spacing, typography) are in `src/styles/global.css`.
 
 ## Adding photographs
 
-1. Put files in `project-source/public/assets/projects/<project>/`, `.../gallery/<album>/`, `.../certifications/`, or `.../profile/`.
-2. Reference them in `src/data/portfolio.js` (see `asset_guide.md` for the exact schema).
-3. Rebuild and publish as above.
+1. Drop files into `public/assets/projects/<project>/`, `…/gallery/<album>/`, `…/certifications/`, or `…/profile/`.
+2. Reference them in `src/data/portfolio.js` (schema in `asset_guide.md`).
+3. Commit and push — the workflow rebuilds and republishes.
 
-The site renders labelled placeholders for any missing image — the layout never breaks.
+Missing images render labelled placeholders; the layout never breaks.
 
 ---
 
 ## Verified build
 
-- 37/37 automated browser checks (layout at 1440 / 820 / 390 px, modal + Escape, form validation, mobile drawer, zero console errors, zero failed requests)
-- Self-hosted fonts and inline icons — **no third-party requests at runtime**
-- Resume PDF bundled and downloadable: `assets/resume/Kazi_Atiqur_Rahman_Resume.pdf`
-
----
+- 37/37 automated browser checks: layout at 1440 / 820 / 390 px, modal open/close (Escape + ✕), form validation, mobile drawer, all scroll-reveal blocks, zero console errors, zero failed requests
+- Self-hosted fonts and inline icons — no third-party requests at runtime (CSP-safe)
+- Resume PDF bundled: `public/assets/resume/Kazi_Atiqur_Rahman_Resume.pdf`
 
 ## Content accuracy
 
