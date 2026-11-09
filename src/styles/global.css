@@ -6,25 +6,26 @@
    ============================================================ */
 
 :root {
-  /* Palette */
-  --bg-0: #0a1120;        /* deepest navy canvas */
-  --bg-1: #0d1626;        /* section navy */
-  --bg-2: #111c30;        /* raised card */
-  --bg-3: #16233b;        /* hover card */
-  --line: rgba(148, 178, 215, 0.14);
-  --line-strong: rgba(148, 178, 215, 0.28);
-  --text-1: #eef4fb;      /* primary text */
-  --text-2: #a7b8ce;      /* secondary text */
-  --text-3: #6d7f97;      /* tertiary text */
-  --accent: #38bdf8;      /* single strategic accent (cyan) */
-  --accent-soft: rgba(56, 189, 248, 0.12);
-  --accent-line: rgba(56, 189, 248, 0.35);
+  /* Palette — editorial near-black with a single cyan signal ----------------- */
+  --bg-0: #0f0f11;        /* canvas */
+  --bg-1: #131316;        /* raised surface */
+  --bg-2: #17171b;        /* card */
+  --bg-3: #1d1d22;        /* hover card */
+  --line: rgba(255, 255, 255, 0.08);
+  --line-strong: rgba(255, 255, 255, 0.18);
+  --text-1: #f5f5f7;      /* primary */
+  --text-2: #a1a1aa;      /* body */
+  --text-3: #6b6b76;      /* metadata */
+  --accent: #00bfff;      /* cyan signal */
+  --accent-soft: rgba(0, 191, 255, 0.10);
+  --accent-line: rgba(0, 191, 255, 0.38);
+  --accent-2: #1f6b7d;    /* steel teal — second word of display headings */
 
-  /* Type */
-  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  /* Type -------------------------------------------------------------------- */
+  --font-sans: 'Geist', 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Mono', monospace;
 
-  /* Rhythm */
+  /* Rhythm ------------------------------------------------------------------ */
   --space-1: 0.5rem;
   --space-2: 1rem;
   --space-3: 1.5rem;
@@ -33,11 +34,11 @@
   --space-6: 4.5rem;
   --space-7: 7rem;
 
-  --radius: 10px;
-  --radius-lg: 16px;
-  --maxw: 1160px;
+  --radius: 4px;
+  --radius-lg: 8px;
+  --maxw: 1152px;
 
-  --shadow-card: 0 12px 40px rgba(2, 6, 16, 0.45);
+  --shadow-card: 0 18px 60px rgba(0, 0, 0, 0.55);
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 

@@ -1,7 +1,8 @@
-import { Icons } from './ui.jsx';
+import { Icons, SmartImage } from './ui.jsx';
 
 export default function About({ data }) {
   const { about } = data;
+  const { assetPaths, placeholders } = data;
   return (
     <section id="about" className="section">
       <div className="container">
@@ -38,6 +39,17 @@ export default function About({ data }) {
           </div>
 
           <aside className="about-aside reveal">
+            <figure className="about-portrait">
+              <span className="about-portrait__label">[ PROFILE ]</span>
+              <SmartImage
+                src={assetPaths.profile}
+                alt="Portrait of Kazi Atiqur Rahman"
+                ratio="4 / 5"
+                label="Profile photo"
+                note={placeholders.profileNote}
+              />
+              <figcaption>Kazi Atiqur Rahman — Dhaka, BD</figcaption>
+            </figure>
             <div className="about-aside__card card">
               <h3>Quick facts</h3>
               <dl>

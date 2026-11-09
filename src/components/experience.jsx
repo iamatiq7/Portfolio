@@ -6,7 +6,7 @@ export default function Experience({ data }) {
       <div className="container">
         <div className="section-head reveal">
           <p className="kicker">Professional Experience</p>
-          <h2>Where I work</h2>
+          <h2>Where I <span className="dim">work</span></h2>
           <p className="lede">
             Enterprise infrastructure operations at Bangladesh&apos;s leading enterprise technology
             services provider.

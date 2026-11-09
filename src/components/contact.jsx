@@ -40,13 +40,14 @@ export default function Contact({ data }) {
   return (
     <section id="contact" className="section section--alt">
       <div className="container">
-        <div className="section-head reveal">
-          <p className="kicker">Contact</p>
-          <h2>Let&apos;s talk infrastructure</h2>
+        <div className="section-head contact-close reveal">
+          <p className="kicker">End of pipeline</p>
+          <h2>Let&apos;s talk <span className="dim">infrastructure</span></h2>
           <p className="lede">
             Open to enterprise infrastructure opportunities, technology collaborations and
             professional conversations.
           </p>
+          <p className="contact-close__meta">[ <span>open to opportunities</span> ] · Dhaka, Bangladesh</p>
         </div>
 
         <div className="contact-grid">

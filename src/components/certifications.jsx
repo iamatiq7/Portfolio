@@ -77,7 +77,7 @@ export default function Certifications({ data }) {
       <div className="container">
         <div className="section-head reveal">
           <p className="kicker">Certifications &amp; Qualifications</p>
-          <h2>Verified credentials</h2>
+          <h2>Verified <span className="dim">credentials</span></h2>
           <p className="lede">
             Vendor-issued certificates, each with the original document attached. Click any certificate
             to view it full size and open the source file.

@@ -128,7 +128,7 @@ export default function Gallery({ data }) {
       <div className="container">
         <div className="section-head reveal">
           <p className="kicker">Beyond Engineering</p>
-          <h2>Academic &amp; professional journey</h2>
+          <h2>Academic &amp; professional <span className="dim">journey</span></h2>
           <p className="lede">{gallery.intro}</p>
         </div>
 
@@ -192,7 +192,7 @@ export default function Gallery({ data }) {
                       {album.description && <p>{album.description}</p>}
                     </div>
                   )}
-                  <div className="gallery-grid">
+                  <div className={`gallery-grid ${album.photos.length === 1 ? 'gallery-grid--single' : ''}`}>
                     {album.photos.map((photo, i) => (
                       <PhotoTile
                         key={photo.file}

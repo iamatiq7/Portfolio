@@ -6,6 +6,7 @@ import './styles/global.css';
 import './styles/components.css';
 import './styles/certifications.css';
 import './styles/gallery.css';
+import './styles/editorial.css';
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>

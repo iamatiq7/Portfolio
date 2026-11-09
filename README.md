@@ -93,7 +93,7 @@ The **Beyond Engineering** section is folder-driven: drop photos into `src/asset
 
 ## Verified build
 
-- 44/44 automated browser checks — layout at 1440 / 820 / 390 px, project modal, certificate viewer (open, metadata, original-document fetch, Escape), form validation, mobile drawer, all scroll-reveal blocks, zero console errors, zero failed requests
+- 43/43 automated browser checks — layout at 1440 / 820 / 390 px, project modal, certificate viewer (open, metadata, original-document fetch, Escape), form validation, mobile drawer, all scroll-reveal blocks, zero console errors, zero failed requests
 - Self-hosted fonts and inline icons — no third-party requests at runtime
 - Resume PDF bundled and downloadable
 

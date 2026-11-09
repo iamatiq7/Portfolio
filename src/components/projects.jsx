@@ -12,7 +12,9 @@ function ProjectCard({ project, onOpen, index }) {
   return (
     <article className="card project-card reveal">
       <ProjectVisual category={project.category} index={index} />
+      <span className="project-card__ghost" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
       <div className="project-card__head">
+        <span className="project-card__index">[{String(index + 1).padStart(2, '0')}]</span>
         <span className={`chip ${STATUS_CHIP[project.status] || 'chip--enterprise'}`}>
           <span className="dot" />
           {project.status}
@@ -103,7 +105,7 @@ export default function Projects({ data }) {
       <div className="container">
         <div className="section-head reveal">
           <p className="kicker">Featured Projects</p>
-          <h2>Enterprise infrastructure work</h2>
+          <h2>Enterprise infrastructure <span className="dim">work</span></h2>
           <p className="lede">
             Real datacenter, virtualization and backup projects I have contributed to — presented as
             technical case studies, with my actual role stated honestly in each.

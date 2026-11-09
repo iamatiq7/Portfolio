@@ -15,7 +15,7 @@ export default function Expertise({ data }) {
       <div className="container">
         <div className="section-head reveal">
           <p className="kicker">Technical Expertise</p>
-          <h2>Domains I work in</h2>
+          <h2>Domains <span className="dim">I work in</span></h2>
           <p className="lede">
             Hands-on enterprise infrastructure skills built through daily operations, OEM-certified
             training and real datacenter project exposure — grouped by domain, not percentages.

@@ -24,6 +24,16 @@ export default function App() {
       <Navbar active={active} resumeUrl={resumeUrl} />
       <main id="main">
         <Hero data={data} resumeUrl={resumeUrl} />
+        <div className="marquee" aria-hidden="true">
+          <div className="marquee__track">
+            {[0, 1].map((k) => (
+              <div className="marquee__item" key={k}>
+                Enterprise infrastructure <strong>//</strong> HPE servers <strong>//</strong> storage &amp; backup <strong>//</strong> VMware virtualization <strong>//</strong> datacenter operations <strong>//</strong> Dhaka, Bangladesh <strong>//</strong>&nbsp;
+                Enterprise infrastructure <strong>//</strong> HPE servers <strong>//</strong> storage &amp; backup <strong>//</strong> VMware virtualization <strong>//</strong> datacenter operations <strong>//</strong> Dhaka, Bangladesh <strong>//</strong>&nbsp;
+              </div>
+            ))}
+          </div>
+        </div>
         <About data={data} />
         <Expertise data={data} />
         <Experience data={data} />

@@ -6,7 +6,7 @@ export default function Education({ data }) {
       <div className="container">
         <div className="section-head reveal">
           <p className="kicker">Education</p>
-          <h2>Academic foundation</h2>
+          <h2>Academic <span className="dim">foundation</span></h2>
         </div>
 
         <div className="edu-timeline">

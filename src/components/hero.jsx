@@ -10,9 +10,13 @@ export default function Hero({ data, resumeUrl }) {
         <div className="hero__text">
           <p className="hero__eyebrow">
             <span className="hero__pulse" aria-hidden="true" />
-            {hero.title}
+            <span className="hero__eyebrow-text">[ {hero.title} ]</span>
           </p>
-          <h1 className="hero__name">{hero.name}</h1>
+          <h1 className="hero__name">
+            {hero.name.split(' ').slice(0, -1).join(' ')}
+            <br />
+            <span className="hero__name-dim">{hero.name.split(' ').slice(-1)}</span>
+          </h1>
           <p className="hero__tagline">{hero.tagline}</p>
           <p className="hero__summary">{hero.summary}</p>
 

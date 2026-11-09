@@ -1,31 +1,31 @@
 /* Self-hosted fonts (CSP-safe: no external font CDNs).
-   To change fonts: replace the .woff2 files in public/assets/fonts/
-   and update the family names/weights here. */
+   Display: Geist (400/500/700/900) — heavy grotesque for the editorial headlines.
+   Labels:  JetBrains Mono (400/500/700) — bracketed technical metadata. */
 @font-face {
-  font-family: 'Inter';
-  src: url('/assets/fonts/Inter-400.woff2') format('woff2');
+  font-family: 'Geist';
+  src: url('/assets/fonts/Geist-400.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: 'Inter';
-  src: url('/assets/fonts/Inter-500.woff2') format('woff2');
+  font-family: 'Geist';
+  src: url('/assets/fonts/Geist-500.woff2') format('woff2');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: 'Inter';
-  src: url('/assets/fonts/Inter-600.woff2') format('woff2');
-  font-weight: 600;
+  font-family: 'Geist';
+  src: url('/assets/fonts/Geist-700.woff2') format('woff2');
+  font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: 'Inter';
-  src: url('/assets/fonts/Inter-700.woff2') format('woff2');
-  font-weight: 700;
+  font-family: 'Geist';
+  src: url('/assets/fonts/Geist-900.woff2') format('woff2');
+  font-weight: 900;
   font-style: normal;
   font-display: swap;
 }
@@ -40,6 +40,13 @@
   font-family: 'JetBrains Mono';
   src: url('/assets/fonts/JetBrainsMono-500.woff2') format('woff2');
   font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('/assets/fonts/JetBrainsMono-700.woff2') format('woff2');
+  font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
