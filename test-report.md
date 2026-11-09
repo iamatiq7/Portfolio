@@ -16,7 +16,7 @@ Assets emitted: 1 HTML, 1 CSS, 1 JS, 6 woff2 fonts, profile JPG (129 KB), resume
 
 ---
 
-## 2. Automated functional checks — **37 / 37 passed**
+## 2. Automated functional checks — **44 / 44 passed**
 
 Full machine-readable results: `qa-results.json` (in the delivery `evidence/` folder).
 
