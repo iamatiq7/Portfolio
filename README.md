@@ -1,4 +1,4 @@
-# Kazi Atiqur Rahman — Portfolio
+﻿# Kazi Atiqur Rahman — Portfolio
 
 Live site: **https://iamatiq7.github.io/Portfolio/**
 
@@ -87,7 +87,9 @@ Full inventory: `certificate-library.md`. Clicking any certificate opens a viewe
 
 ## Gallery
 
-The **Beyond Engineering** section is folder-driven: drop photos into `src/assets/gallery/<album>/` (`thesis`, `projects`, `events`, `campus`) and push. New folders become new albums automatically; captions come from filenames or `gallery.captions`. Full instructions: `gallery-guide.md`.
+The **Beyond Engineering** section is folder-driven: drop photos into `src/assets/gallery/<album>/` and push. New folders become new albums automatically; captions come from filenames or `gallery.captions`.
+
+**Any format is accepted.** A pre-build step (`scripts/gallery-intake.mjs`) converts HEIC/HEIF, TIFF, BMP and GIF to web-ready JPEG, caps width at 1600 px, compresses to roughly 120–280 KB, applies EXIF rotation, and even rescues images uploaded to the repository root or the legacy `public/assets/gallery` folder. Full instructions: `gallery-guide.md`.
 
 ## Verified build
 

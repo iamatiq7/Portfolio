@@ -64,3 +64,37 @@ gallery: {
 | সাইট আপডেট হয়নি | GitHub → **Actions** ট্যাব দেখুন; rebuild শেষ হয়েছে কি না |
 | পুরনো ছবি দেখাচ্ছে | `Ctrl + F5` (hard refresh) |
 | ক্রম উল্টো | ফাইলের নামে `01-`, `02-` যোগ করুন |
+
+---
+
+## ⚠ গুরুত্বপূর্ণ: repo-r home page theke upload korben na
+
+GitHub-e **repository-r main page** theke "Add file → Upload files" korle chhobi repo-r **root**-e jaye,
+gallery folder-e na — tokhon site-e dekhay na.
+
+**Always use the album link:**
+
+```
+https://github.com/iamatiq7/Portfolio/upload/main/src/assets/gallery/thesis
+https://github.com/iamatiq7/Portfolio/upload/main/src/assets/gallery/projects
+https://github.com/iamatiq7/Portfolio/upload/main/src/assets/gallery/teams
+```
+
+Ei link gulo khulle GitHub already oi folder-e upload korbe.
+
+**Safety net (ekhon add kora):** bhul kore root-e upload korleo build-er age script ta chhobi khuje
+niye `src/assets/gallery/unsorted/` e soriye dey — mane site-e "Unsorted" album-e holeo dekhay.
+Kintu thik album-e rakhte uporer link guloi use korun.
+
+---
+
+## ✅ যেকোনো ফরম্যাট আপলোড করা যাবে (অটো কনভার্ট)
+
+এখন iPhone-এর **HEIC**, scanner-এর **TIFF/BMP**, **GIF**, **PNG**, **WebP** — যা-ই আপলোড করুন,
+build-এর সময় সেটি নিজে থেকেই ওয়েব-রেডি **JPEG (সর্বোচ্চ 1600px, ~120–270KB)** হয়ে যাবে।
+আপনাকে আলাদা করে convert করতে হবে না।
+
+- বড় ছবি (৬০০KB+) নিজে থেকেই ছোট হয়ে যাবে।
+- ভুল জায়গায় (repo root-এ) আপলোড করলেও সেটি `Unsorted` অ্যালবামে চলে আসবে।
+- শুধু একটা সীমা: ফাইলটি যেন আসল ছবি হয় (corrupt/০ বাইট নয়)। corrupt হলে build log-এ `✖` দেখাবে,
+  বাকি গ্যালারি ঠিকঠাক deploy হবে।

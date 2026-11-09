@@ -1,94 +1,191 @@
 #!/usr/bin/env node
 /**
- * Gallery intake — runs automatically before every build
+ * Gallery intake + image conversion — runs automatically before every build
  * (`prebuild` / `prebuild:gh`).
  *
- * Problem it solves: photos uploaded to the repository root (or to the legacy
- * public/assets/gallery folder) are invisible to the gallery, which only reads
- * src/assets/gallery/<album>/.
+ * Whatever the owner uploads, this script turns it into a web-ready JPEG and
+ * puts it inside src/assets/gallery/<album>/ so the gallery always shows it.
  *
- * This script finds browser-displayable images in those wrong places and moves
- * them into src/assets/gallery/unsorted/ so they always appear on the site.
+ *   • HEIC / HEIF (iPhone)      → JPEG via heic-convert (libheif, WASM)
+ *   • TIFF / TIF                → JPEG via sharp
+ *   • BMP                       → JPEG via bmp-js + sharp
+ *   • GIF                       → JPEG (first frame)
+ *   • PNG / WebP / AVIF / JPEG  → optimised JPEG when oversized
+ *   • any image sitting in the repo root or public/assets/gallery → moved in
+ *
+ * Rules: max width 1600 px, JPEG quality 82, progressive; transparency is
+ * flattened onto the site background. Originals are removed once converted.
  */
 import fs from 'node:fs';
 import path from 'node:path';
+import sharp from 'sharp';
+import heicConvert from 'heic-convert';
+import bmpjs from 'bmp-js';
 
 const ROOT = process.cwd();
 const GALLERY = path.join(ROOT, 'src', 'assets', 'gallery');
-const UNSORTED = path.join(GALLERY, 'unsorted');
 const LEGACY = path.join(ROOT, 'public', 'assets', 'gallery');
+const UNSORTED = path.join(GALLERY, 'unsorted');
 
-const OK_EXT = new Set(['.jpg', '.jpeg', '.png', '.webp', '.avif']);
-const HEIC_EXT = new Set(['.heic', '.heif']);
+const MAX_WIDTH = 1600;
+const QUALITY = 82;
+const OPTIMISE_ABOVE = 600 * 1024;
 
-const moved = [];
-const warnings = [];
+const WEB = new Set(['.jpg', '.jpeg', '.png', '.webp', '.avif']);
+const CONVERT = new Set(['.heic', '.heif', '.tiff', '.tif', '.bmp', '.gif', '.jfif']);
+const ALL = new Set([...WEB, ...CONVERT]);
 
-function isFile(p) {
+const stats = { converted: 0, optimised: 0, skipped: 0, failed: 0 };
+const log = [];
+
+const isFile = (p) => {
   try {
     return fs.statSync(p).isFile();
   } catch {
     return false;
   }
-}
+};
 
-function moveInto(srcFile, album = 'unsorted') {
-  const destDir = album === 'unsorted' ? UNSORTED : path.join(GALLERY, album);
-  fs.mkdirSync(destDir, { recursive: true });
-  let base = path.basename(srcFile);
-  let dest = path.join(destDir, base);
-  if (fs.existsSync(dest)) {
-    const ext = path.extname(base);
-    const stem = path.basename(base, ext);
-    dest = path.join(destDir, `${stem}-${Date.now().toString(36)}${ext}`);
+const slugify = (name) =>
+  path
+    .basename(name, path.extname(name))
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 60) || 'photo';
+
+function uniquePath(dir, slug) {
+  let candidate = path.join(dir, `${slug}.jpg`);
+  let i = 2;
+  while (fs.existsSync(candidate)) {
+    candidate = path.join(dir, `${slug}-${i}.jpg`);
+    i += 1;
   }
-  fs.renameSync(srcFile, dest);
-  moved.push(`${path.relative(ROOT, srcFile)} → ${path.relative(ROOT, dest)}`);
+  return candidate;
 }
 
-// 1) images dropped in the repository root
+async function jpegFrom(file, ext) {
+  if (ext === '.heic' || ext === '.heif') {
+    const buf = await heicConvert({ buffer: fs.readFileSync(file), format: 'JPEG', quality: 0.9 });
+    return sharp(Buffer.from(buf));
+  }
+  if (ext === '.bmp') {
+    const raw = bmpjs.decode(fs.readFileSync(file));
+    return sharp(raw.data, { raw: { width: raw.width, height: raw.height, channels: 4 } });
+  }
+  return sharp(file, { animated: false }); // tiff, gif, png, webp, avif, jpeg
+}
+
+async function processImage({ file, album, force, overwrite = false }) {
+  const ext = path.extname(file).toLowerCase();
+  if (!ALL.has(ext)) return;
+
+  const size = fs.statSync(file).size;
+  let width = 0;
+  try {
+    const meta = await sharp(file).metadata();
+    width = meta.width || 0;
+  } catch {
+    // HEIC/BMP metadata may be unavailable — treat as needing conversion
+    width = 0;
+  }
+
+  const needsConvert = CONVERT.has(ext) || !WEB.has(ext);
+  const needsOptimise = WEB.has(ext) && (size > OPTIMISE_ABOVE || width > MAX_WIDTH);
+  if (!force && !needsConvert && !needsOptimise) {
+    stats.skipped += 1;
+    return;
+  }
+
+  const destDir = path.join(GALLERY, album);
+  fs.mkdirSync(destDir, { recursive: true });
+  const baseSlug = slugify(file);
+  const dest = overwrite
+    ? path.join(destDir, `${baseSlug}.jpg`)
+    : uniquePath(destDir, baseSlug);
+
+  try {
+    const pipeline = await jpegFrom(file, ext);
+    const out = await pipeline
+      .rotate()
+      .resize({ width: MAX_WIDTH, withoutEnlargement: true })
+      .flatten({ background: '#0a1120' })
+      .jpeg({ quality: QUALITY, progressive: true, mozjpeg: true })
+      .toBuffer();
+
+    fs.writeFileSync(dest, out);
+    const outMeta = await sharp(dest).metadata();
+    const outKb = Math.round(out.length / 1024);
+    const inKb = Math.round(size / 1024);
+
+    log.push(
+      `✔ ${path.relative(ROOT, file)} → ${path.relative(GALLERY, dest)} · ${inKb} KB → ${outKb} KB · ${width || '?'}px → ${outMeta.width}px`
+    );
+
+    if (path.resolve(file) !== path.resolve(dest)) {
+      try {
+        fs.unlinkSync(file);
+      } catch {
+        try {
+          fs.rmSync(file, { force: true });
+        } catch {
+          log.push(`   ↳ source could not be removed (locked); it will simply be overwritten next build.`);
+        }
+      }
+    }
+    if (needsConvert) stats.converted += 1;
+    else stats.optimised += 1;
+  } catch (err) {
+    stats.failed += 1;
+    log.push(`✖ ${path.relative(ROOT, file)} — could not convert (${String(err.message).split('\n')[0].slice(0, 120)}). File left untouched.`);
+  }
+}
+
+// 1) repository root uploads
 for (const name of fs.readdirSync(ROOT)) {
   const p = path.join(ROOT, name);
   if (!isFile(p)) continue;
-  const ext = path.extname(name).toLowerCase();
-  if (HEIC_EXT.has(ext)) {
-    warnings.push(`${name} is HEIC/HEIF — browsers cannot display it. Convert to JPG, then re-upload.`);
-    continue;
-  }
-  if (!OK_EXT.has(ext)) continue;
-  moveInto(p);
+  if (!ALL.has(path.extname(name).toLowerCase())) continue;
+  await processImage({ file: p, album: 'unsorted', overwrite: true });
 }
 
-// 2) legacy public/assets/gallery uploads, preserving their sub-folder as the album
+// 2) legacy public/assets/gallery uploads
 if (fs.existsSync(LEGACY)) {
-  const walk = (dir, album) => {
+  const walk = async (dir, album) => {
     for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
       const p = path.join(dir, entry.name);
       if (entry.isDirectory()) {
-        walk(p, album || entry.name);
-        continue;
+        await walk(p, album || entry.name);
+      } else if (ALL.has(path.extname(entry.name).toLowerCase())) {
+        await processImage({ file: p, album: album || 'unsorted', overwrite: true });
       }
-      const ext = path.extname(entry.name).toLowerCase();
-      if (HEIC_EXT.has(ext)) {
-        warnings.push(`${path.relative(ROOT, p)} is HEIC/HEIF — convert to JPG.`);
-        continue;
-      }
-      if (OK_EXT.has(ext)) moveInto(p, album || 'unsorted');
     }
   };
-  walk(LEGACY, null);
+  await walk(LEGACY, null);
 }
 
-if (moved.length) {
-  console.log('\n📥 Gallery intake — moved misplaced photos into the gallery:');
-  for (const m of moved) console.log(`   • ${m}`);
-  console.log('   → They will appear under the "Unsorted" album until you move them into an album folder.\n');
+// 3) gallery folders: convert non-web formats, optimise oversized web images
+if (fs.existsSync(GALLERY)) {
+  for (const entry of fs.readdirSync(GALLERY, { withFileTypes: true })) {
+    if (!entry.isDirectory()) continue;
+    const album = entry.name;
+    const dir = path.join(GALLERY, album);
+    for (const name of fs.readdirSync(dir)) {
+      const p = path.join(dir, name);
+      if (!isFile(p)) continue;
+      if (!ALL.has(path.extname(name).toLowerCase())) continue;
+      await processImage({ file: p, album });
+    }
+  }
 }
-if (warnings.length) {
-  console.log('\n⚠ Gallery intake warnings:');
-  for (const w of warnings) console.log(`   • ${w}`);
-  console.log('');
+
+if (log.length) {
+  console.log('\n🖼  Gallery intake — converted/optimised images:');
+  for (const line of log) console.log('   ' + line);
 }
-if (!moved.length && !warnings.length) {
-  console.log('Gallery intake: nothing to move.');
+console.log(
+  `\nGallery intake summary: ${stats.converted} converted · ${stats.optimised} optimised · ${stats.skipped} already fine · ${stats.failed} failed`
+);
+if (stats.failed) {
+  console.log('   Failed files were left in place; fix or remove them, then rebuild.\n');
 }

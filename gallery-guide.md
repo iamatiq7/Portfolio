@@ -173,3 +173,70 @@ npm run gallery:check
 ```
 
 It fails on unsupported formats, errors above 8 MB, and warns above 600 KB or on uppercase extensions.
+
+---
+
+## 10. Uploaded to the repository ROOT instead of an album (2026-11-08, second incident)
+
+A second photo (`IMG_6087.JPG`, 7.37 MB) was uploaded with **Add file → Upload files** from the
+repository home page. It landed at the repository root, where the gallery never looks — so the
+site showed nothing new.
+
+**Why this happens:** GitHub's upload dialog uploads into *the folder you are currently viewing*.
+From the repo home that is the root, not `src/assets/gallery/<album>/`.
+
+**Permanent fix — automatic intake.** Every build now runs `scripts/gallery-intake.mjs`
+(`prebuild` / `prebuild:gh`), which:
+
+- finds browser-displayable images in the repository root or in the legacy `public/assets/gallery/`,
+- moves them into `src/assets/gallery/unsorted/` (or the matching album for the legacy path),
+- reports every move in the build log.
+
+So a misplaced upload now still appears on the site (under the “Unsorted” album) instead of
+disappearing. HEIC/HEIF files are flagged with a warning because browsers cannot display them.
+
+**Correct habit:** always use the album upload link
+(`https://github.com/iamatiq7/Portfolio/upload/main/src/assets/gallery/thesis`, …) — never the
+repository home page.
+
+That photo was a team photograph, so it was optimised to 1600 px / 271 KB and published as
+`src/assets/gallery/teams/01-team-photo.jpg` under the **Teams & Groups** album.
+
+---
+
+## 11. যেকোনো ফরম্যাট আপলোড করুন — অটো কনভার্ট হয়
+
+Build-এর আগে `scripts/gallery-intake.mjs` চলে এবং যা-ই আপলোড করেন সেটিকে ওয়েব-রেডি JPEG-তে
+কনভার্ট করে `src/assets/gallery/<album>/`-এ রাখে। ফলে unsupported ফরম্যাটের কারণে ছবি আর হারায় না।
+
+| Input | Conversion path |
+|---|---|
+| `.HEIC` / `.HEIF` (iPhone) | `heic-convert` (libheif WASM) → sharp → JPEG |
+| `.TIFF` / `.TIF` | sharp → JPEG |
+| `.BMP` | `bmp-js` decode → sharp → JPEG |
+| `.GIF` | first frame → JPEG |
+| `.PNG` / `.WEBP` / `.AVIF` / `.JPG` | kept, but re-encoded to JPEG if wider than 1600 px or larger than 600 KB |
+| Anything in the **repo root** or `public/assets/gallery/` | moved into the gallery automatically (album `unsorted` if the folder is unknown) |
+
+Rules applied to every output: **max width 1600 px**, **JPEG quality 82**, progressive, EXIF rotation
+applied, transparency flattened onto the site background. Originals are deleted after conversion.
+
+Sample build output:
+
+```
+🖼  Gallery intake — converted/optimised images:
+   ✔ UPLOAD-FROM-IPHONE.HEIC → unsorted/upload-from-iphone.jpg · 205 KB → 120 KB · 2400px → 1600px
+   ✔ scan-bitmap.bmp          → unsorted/scan-bitmap.jpg       · 12656 KB → 124 KB
+   ✔ site-scan.tiff           → projects/site-scan.jpg         · 12656 KB → 120 KB
+   ✔ campus-png.png           → campus/campus-png.jpg          · 1713 KB → 120 KB
+   ✔ event-loop.gif           → events/event-loop.jpg          · 1458 KB → 122 KB
+Gallery intake summary: 5 converted · 0 optimised · 2 already fine · 0 failed
+```
+
+**Failure behaviour:** a corrupt or unreadable file is reported (`✖ … could not convert`) and left
+untouched — the build continues, the rest of the gallery still deploys. Fix or delete that file and
+push again.
+
+**Cost:** the conversion runs in GitHub Actions, not in the browser. A typical batch of 10 phone
+photos adds roughly 10–20 seconds to the build. Nothing extra is shipped to visitors beyond the
+resulting JPEGs.
