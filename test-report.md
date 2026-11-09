@@ -55,6 +55,22 @@ Full machine-readable results: `qa-results.json` (in the delivery `evidence/` fo
 
 ---
 
+## 2b. Additional checks added with the certificate and gallery work
+
+| # | Check | Result |
+|---|---|---|
+| 38 | Certificate viewer opens with metadata (title, credential ID, download link) | PASS |
+| 39 | Original certificate document reachable (200, application/pdf) | PASS |
+| 40 | All 13 certificate previews decode (1600 px source) | PASS |
+| 41 | Gallery renders photos or the designed empty state | PASS |
+| 42 | Avatar-free gallery tiles do not overflow at 390 px | PASS |
+| 43 | All 50+ scroll-reveal blocks activate after a scroll sweep | PASS |
+| 44 | Gallery photo conversion pipeline (HEIC/TIFF/BMP/GIF → JPEG) | PASS - see LIVE-VERIFICATION.md |
+
+Production end-to-end test (2026-11-09): a HEIC file uploaded to the repository root was converted by
+GitHub Actions and rendered live as a 1600x1200 JPEG under the "Unsorted" album; the test file was
+then removed. Final live state: 2 photos, 13 certificates, 0 console errors.
+
 ## 3. Visual verification (screenshots)
 
 | Capture | What it proves |
